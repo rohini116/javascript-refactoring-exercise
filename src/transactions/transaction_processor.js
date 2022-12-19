@@ -1,27 +1,24 @@
-var txr = [];
-
 function processTransactions(transActions) {
 
-    txr = [];
+    const txr = [];
 
-    if(!validateTransactions(transActions)) {
-        throw new Error("Undefined collection of transactions")
+    if (!validateTransactions(transActions)) {
+      throw new Error("Undefined collection of transactions");
     }
 
-    let txCount = {}
+    let txCount = {};
 
-    const numberOfTransactions = transActions.length;
-
-    for(var i = 0; i < numberOfTransactions; i++) {
-        const transaction = transActions[i];
-        txCount[transaction] ? txCount[transaction] += 1 : txCount[transaction] = 1;
-    }
+    transActions.forEach((transaction) => {
+      txCount[transaction]
+        ? (txCount[transaction] += 1)
+        : (txCount[transaction] = 1);
+    });
 
     txCount = sortByAmountThenName(txCount);
-    
+
     // Place them back in array for returning
-    Object.keys(txCount).forEach(function (key, index) {
-        txr[index] = `${key} ${txCount[key]}`;
+    Object.keys(txCount).forEach((key, index) => {
+      txr[index] = `${key} ${txCount[key]}`;
     });
 
     return txr;
